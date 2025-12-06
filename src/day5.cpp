@@ -4,6 +4,20 @@
 #include <algorithm>
 using namespace std;
 
+vector<vector<long>> getRanges() {
+    vector<vector<long>> ranges;
+    string line;
+    while (getline(cin, line) && !line.empty()) {
+        stringstream range(line);
+        long a, b;
+        char dash;
+        range >> a >> dash >> b;
+        ranges.push_back({a, b});
+    }
+    sort(ranges.begin(), ranges.end());
+    return ranges;
+}
+
 // Part 1
 int part1(vector<vector<long>> &ranges) {
     vector<long> nums;
@@ -59,17 +73,8 @@ void visualise(vector<vector<long>> &ranges) {
 }
 
 int main() {
-    cout << "BEGIN! " << endl;
-    vector<vector<long>> ranges;
-    string line;
-    while (getline(cin, line) && !line.empty()) {
-        stringstream range(line);
-        long a, b;
-        char dash;
-        range >> a >> dash >> b;
-        ranges.push_back({a, b});
-    }
-    sort(ranges.begin(), ranges.end());
+    cout << "BEGIN!" << endl;
+    vector<vector<long>> ranges = getRanges();
 
     // Part 1
     // int fresh = part1(ranges);

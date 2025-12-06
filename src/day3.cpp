@@ -1,9 +1,9 @@
 #include <iostream>
 using namespace std;
 
-int main() {
+long max_joltage(int num_batteries) {
+    cout << "BEGIN!" << endl;
     long best = 0;
-    int num_batteries = 12; // Set num_batteries = 2 for Part 1
     string nums;
     getline(cin, nums);
 
@@ -20,7 +20,12 @@ int main() {
         best += sum;
         getline(cin, nums);
     }
+    return best;
+}
 
+int main() {
+    long best = 0;
+    best = max_joltage(12); // For Part 1, Set Argument to 2
     cout << "Max Joltage Possible : " << best << endl;
     return 0;
 }
