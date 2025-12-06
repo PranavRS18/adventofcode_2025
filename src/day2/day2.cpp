@@ -2,6 +2,9 @@
 #include <sstream>
 using namespace std;
 
+// Part 1 Constant
+const bool PART1 = false;
+
 bool is_repetition(long long x, bool part1 = false) {
     string str = to_string(x);
     int n = str.size();
@@ -31,7 +34,7 @@ long long sumInvalidIDs(){
         getline(part, Rs, '-');
         long long L = stoll(Ls), R = stoll(Rs);
         for (long long i = L; i <= R; i++)
-            if (is_repetition(i, false)) sum += i; // Set False to True for Part 1
+            if (is_repetition(i, PART1)) sum += i;
     }
 
     return sum;

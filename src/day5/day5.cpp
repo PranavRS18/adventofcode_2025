@@ -4,6 +4,9 @@
 #include <algorithm>
 using namespace std;
 
+// Part 1 Constant
+const bool PART1 = false;
+
 vector<vector<long>> getRanges() {
     vector<vector<long>> ranges;
     string line;
@@ -76,11 +79,9 @@ int main() {
     cout << "BEGIN!" << endl;
     vector<vector<long>> ranges = getRanges();
 
-    // Part 1
-    // int fresh = part1(ranges);
-
-    // Part 2
-    int fresh = part2(ranges);
+    int fresh;
+    if (PART1) fresh = part1(ranges);
+    else fresh = part2(ranges);
     
     // Visualise Ranges
     // visualise(ranges);

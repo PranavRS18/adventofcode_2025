@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+// Part 1 Constant
+const bool PART1 = false;
+
 long max_joltage(int num_batteries) {
     cout << "BEGIN!" << endl;
     long best = 0;
@@ -25,7 +28,7 @@ long max_joltage(int num_batteries) {
 
 int main() {
     long best = 0;
-    best = max_joltage(12); // For Part 1, Set Argument to 2
+    best = max_joltage(PART1 ? 2 : 12);
     cout << "Max Joltage Possible : " << best << endl;
     return 0;
 }

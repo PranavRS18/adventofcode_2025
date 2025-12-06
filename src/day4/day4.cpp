@@ -3,6 +3,9 @@
 #include <unordered_map>
 using namespace std;
 
+// Part 1 Constant
+const bool PART1 = false;
+
 vector<vector<int>> getPapers() {
     cout << "BEGIN!" << endl;
     vector<vector<int>> papers;
@@ -112,7 +115,7 @@ int main() {
     // Puzzle Input
     vector<vector<int>> papers = getPapers();
     vector<vector<int>> adjP = calculateAdjP(papers);
-    int count = countForkLifted(papers, adjP, false); // Set False to True for Part 1
+    int count = countForkLifted(papers, adjP, PART1);
 
     // Visualise Grid
     // visualise(papers);
