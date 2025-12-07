@@ -19,7 +19,6 @@ bool is_repetition(long long x, bool part1 = false) {
 }
 
 long long sumInvalidIDs(){
-    cout << "BEGIN!" << endl;
     string input;
     getline(cin, input);
 
@@ -41,7 +40,9 @@ long long sumInvalidIDs(){
 }
 
 int main() {
+    cout << "BEGIN!" << endl;
     long long sum = 0;
     sum = sumInvalidIDs();
     cout << "Sum of Invalid IDs : " << sum << endl;
+    return 0;
 }

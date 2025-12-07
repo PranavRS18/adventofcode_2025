@@ -7,7 +7,6 @@ using namespace std;
 const bool PART1 = false;
 
 vector<vector<int>> getPapers() {
-    cout << "BEGIN!" << endl;
     vector<vector<int>> papers;
     string rowS;
     getline(cin, rowS);
@@ -112,6 +111,7 @@ void visualise(vector<vector<int>> &papers) {
 }
 
 int main() {
+    cout << "BEGIN!" << endl;
     // Puzzle Input
     vector<vector<int>> papers = getPapers();
     vector<vector<int>> adjP = calculateAdjP(papers);

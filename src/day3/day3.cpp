@@ -5,7 +5,6 @@ using namespace std;
 const bool PART1 = false;
 
 long max_joltage(int num_batteries) {
-    cout << "BEGIN!" << endl;
     long best = 0;
     string nums;
     getline(cin, nums);
@@ -27,6 +26,7 @@ long max_joltage(int num_batteries) {
 }
 
 int main() {
+    cout << "BEGIN!" << endl;
     long best = 0;
     best = max_joltage(PART1 ? 2 : 12);
     cout << "Max Joltage Possible : " << best << endl;
