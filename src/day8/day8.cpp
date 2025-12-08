@@ -7,6 +7,10 @@
 #include <climits>
 using namespace std;
 
+// Change Constants here
+const bool PART1 = true;
+const int operations = 1000; // Number of Connections
+
 vector<vector<int>> getJunctionBoxes() {
     vector<vector<int>> boxes;
     string line;
@@ -31,9 +35,9 @@ vector<unordered_set<int>> initialiseCircuits(int size) {
 }
 
 long computeDistance(vector<int> P2, vector<int> P1) {
-    long xDist = (P2[0] - P1[0]) * (P2[0] - P1[0]);
-    long yDist = (P2[1] - P1[1]) * (P2[1] - P1[1]);
-    long zDist = (P2[2] - P1[2]) * (P2[2] - P1[2]);
+    long xDist = (long)(P2[0] - P1[0]) * (long)(P2[0] - P1[0]);
+    long yDist = (long)(P2[1] - P1[1]) * (long)(P2[1] - P1[1]);
+    long zDist = (long)(P2[2] - P1[2]) * (long)(P2[2] - P1[2]);
     return xDist + yDist + zDist;
 }
 
@@ -50,49 +54,6 @@ bool isSameCircuit(vector<unordered_set<int>> &circuits, int B1, int B2) {
     return (C1 == C2);
 }
 
-void stripDistance(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
-    long &dist, int &B1, int &B2, int left, int right) {
-    for (int i = left; i < right; i++) {
-        for (int j = i + 1; j <= right; j++) {
-            if (abs(boxes[j][1] - boxes[i][1]) > dist) break;
-            else if (abs(boxes[j][2] - boxes[i][2]) > dist) continue;
-            long cDist = computeDistance(boxes[j], boxes[i]);
-            if (dist > cDist && !isSameCircuit(circuits, i, j)) {
-                B1 = i;
-                B2 = j;
-                dist = cDist;
-            } 
-        }
-    }
-}
-
-void minDistance(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
-    long &dist, int &B1, int &B2, int left, int right) {
-    if (right - left < 2) {
-        if (left == right) return;
-        long cDist = computeDistance(boxes[right], boxes[left]);
-        if (dist > cDist && !isSameCircuit(circuits, left, right)) {
-            B1 = left;
-            B2 = right;
-            dist = cDist;
-        }
-    }
-
-    int mid = (left + right) / 2;
-    minDistance(boxes, circuits, dist, B1, B2, left, mid); // Left Side
-    minDistance(boxes, circuits, dist, B1, B2, mid + 1, right); // Right Side
-
-    // Strip Across
-    int j = mid, k = mid;
-    for (int i = left; i <= right; i++) {
-        if (abs(boxes[mid][0] - boxes[i][0]) <= dist) {
-            j = min(i, j);
-            k = max(i, k);
-        }
-    }
-    stripDistance(boxes, circuits, dist, B1, B2, j, k);
-}
-
 void connectBoxes(vector<unordered_set<int>> &circuits, int B1, int B2) {
     int C1 = boxToCircuit(circuits, B1);
     int C2 = boxToCircuit(circuits, B2);
@@ -102,7 +63,7 @@ void connectBoxes(vector<unordered_set<int>> &circuits, int B1, int B2) {
     circuits.erase(circuits.begin() + C2);
 }
 
-void createDecoration1(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
+void createDecoration(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
     int operations) {
     vector<vector<long>> distances;
     for (int i = 0; i < boxes.size(); i++) {
@@ -112,17 +73,12 @@ void createDecoration1(vector<vector<int>> &boxes, vector<unordered_set<int>> &c
     }
     sort(distances.begin(), distances.end());
     for (int i = 0; i < operations; i++) {
+        if (circuits.size() == 1) {
+            cout << "Last Two Junction Boxes' X Coordinates Product : ";
+            cout << boxes[distances[i][1]][0] * boxes[distances[i][2]][0] << endl;
+            break;
+        }
         connectBoxes(circuits, distances[i][1], distances[i][2]);
-    }
-}
-
-void createDecoration2(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
-    int operations) {
-    for (int i = 0; i < operations; i++) {
-        int B1, B2;
-        long dist = LONG_MAX;
-        minDistance(boxes, circuits, dist, B1, B2, 0, boxes.size() - 1);
-        connectBoxes(circuits, B1, B2);
     }
 }
 
@@ -157,8 +113,7 @@ int main() {
 
     vector<vector<int>> boxes = getJunctionBoxes();
     vector<unordered_set<int>> circuits = initialiseCircuits(boxes.size());
-    int operations = 1000;
-    createDecoration1(boxes, circuits, operations);
+    createDecoration(boxes, circuits, operations);
     calcCircuitSizes(circuits);
 
     // visualiseBoxes(boxes);

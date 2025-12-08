@@ -1,10 +1,10 @@
 #include <iostream>
 using namespace std;
 
-// Part 1 Constant
-const bool PART1 = false;
+// Part 1 has 2 Batteries, Part 2 has 12 Batteries
+const int num_batteries = 12;
 
-long max_joltage(int num_batteries) {
+long max_joltage() {
     long best = 0;
     string nums;
     getline(cin, nums);
@@ -28,7 +28,7 @@ long max_joltage(int num_batteries) {
 int main() {
     cout << "BEGIN!" << endl;
     long best = 0;
-    best = max_joltage(PART1 ? 2 : 12);
+    best = max_joltage();
     cout << "Max Joltage Possible : " << best << endl;
     return 0;
 }

@@ -4,6 +4,7 @@ using namespace std;
 
 // Part 1 Constant
 const bool PART1 = false;
+const int a = 50; // Initial Configuration    
 
 void calculateRule(int &a, string &rule, int &zero_count, int &count) {
     int factor = stoi(rule.substr(1));
@@ -26,9 +27,6 @@ void calculateRule(int &a, string &rule, int &zero_count, int &count) {
 
 int main() {
     cout << "BEGIN!" << endl;
-    
-    // Initial Configuration
-    int a = 50;
     
     string rule;
     int zero_count = 0, count = 0;
