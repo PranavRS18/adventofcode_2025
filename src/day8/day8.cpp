@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_set>
 #include <algorithm>
+#include <functional>
 #include <climits>
 using namespace std;
 
@@ -29,32 +30,24 @@ vector<unordered_set<int>> initialiseCircuits(int size) {
     return circuits;
 }
 
+long computeDistance(vector<int> P2, vector<int> P1) {
+    long xDist = (P2[0] - P1[0]) * (P2[0] - P1[0]);
+    long yDist = (P2[1] - P1[1]) * (P2[1] - P1[1]);
+    long zDist = (P2[2] - P1[2]) * (P2[2] - P1[2]);
+    return xDist + yDist + zDist;
+}
+
 int boxToCircuit(vector<unordered_set<int>> &circuits, int B) {
-    int C;
     for (int i = 0; i < circuits.size(); i++) {
-        if (circuits[i].count(B)) C = i;
+        if (circuits[i].count(B)) return i;
     }
-    return C;
+    return -1;
 }
 
 bool isSameCircuit(vector<unordered_set<int>> &circuits, int B1, int B2) {
     int C1 = boxToCircuit(circuits, B1);
     int C2 = boxToCircuit(circuits, B2);
     return (C1 == C2);
-}
-
-void connectBoxes(vector<unordered_set<int>> &circuits, int B1, int B2) {
-    int C1 = boxToCircuit(circuits, B1);
-    int C2 = boxToCircuit(circuits, B2);
-    circuits[C1].insert(circuits[C2].begin(), circuits[C2].end());
-    circuits.erase(circuits.begin() + C2);
-}
-
-long computeDistance(vector<int> P2, vector<int> P1) {
-    long xDist = (P2[0] - P1[0]) * (P2[0] - P1[0]);
-    long yDist = (P2[1] - P1[1]) * (P2[1] - P1[1]);
-    long zDist = (P2[2] - P1[2]) * (P2[2] - P1[2]);
-    return xDist + yDist + zDist;
 }
 
 void stripDistance(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
@@ -100,13 +93,46 @@ void minDistance(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuit
     stripDistance(boxes, circuits, dist, B1, B2, j, k);
 }
 
-void createDecoration(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, int operations) {
+void connectBoxes(vector<unordered_set<int>> &circuits, int B1, int B2) {
+    int C1 = boxToCircuit(circuits, B1);
+    int C2 = boxToCircuit(circuits, B2);
+    if (C1 == C2) return;
+    
+    circuits[C1].insert(circuits[C2].begin(), circuits[C2].end());
+    circuits.erase(circuits.begin() + C2);
+}
+
+void createDecoration1(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
+    int operations) {
+    vector<vector<long>> distances;
+    for (int i = 0; i < boxes.size(); i++) {
+        for (int j = i + 1; j < boxes.size(); j++) {
+            distances.push_back({computeDistance(boxes[j], boxes[i]), i, j});
+        }
+    }
+    sort(distances.begin(), distances.end());
+    for (int i = 0; i < operations; i++) {
+        connectBoxes(circuits, distances[i][1], distances[i][2]);
+    }
+}
+
+void createDecoration2(vector<vector<int>> &boxes, vector<unordered_set<int>> &circuits, 
+    int operations) {
     for (int i = 0; i < operations; i++) {
         int B1, B2;
         long dist = LONG_MAX;
         minDistance(boxes, circuits, dist, B1, B2, 0, boxes.size() - 1);
         connectBoxes(circuits, B1, B2);
     }
+}
+
+void calcCircuitSizes(vector<unordered_set<int>> &circuits) {
+    vector<int> sizes;
+    for (unordered_set<int> circuit : circuits) {
+        sizes.push_back(circuit.size());
+    }
+    sort(sizes.rbegin(), sizes.rend());
+    cout << "Product of 3 Largest Circuits: " << sizes[0] * sizes[1] * sizes[2] << endl;
 }
 
 void visualiseBoxes(vector<vector<int>> &boxes) {
@@ -131,9 +157,13 @@ int main() {
 
     vector<vector<int>> boxes = getJunctionBoxes();
     vector<unordered_set<int>> circuits = initialiseCircuits(boxes.size());
-    createDecoration(boxes, circuits, 3);
+    int operations = 1000;
+    createDecoration1(boxes, circuits, operations);
+    calcCircuitSizes(circuits);
 
     // visualiseBoxes(boxes);
-    visualiseCircuits(circuits);
+    // visualiseCircuits(circuits);
+    cout << "Operations: " << operations << endl;
+    cout << "No. of Circuits: " << circuits.size() << endl;
     return 0;
 }
