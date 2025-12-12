@@ -3,12 +3,9 @@
 #include <vector>
 #include <unordered_set>
 #include <algorithm>
-#include <functional>
-#include <climits>
 using namespace std;
 
 // Change Constants here
-const bool PART1 = true;
 const int operations = 1000; // Number of Connections
 
 vector<vector<int>> getJunctionBoxes() {

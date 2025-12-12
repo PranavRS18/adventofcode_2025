@@ -81,10 +81,10 @@ vector<vector<long long>> getCephalopodNumbers(string &line) {
     return cWorksheet;
 }
 
-pair<vector<vector<long long>>, vector<char>> getWorksheet(bool part1 = false) {
+pair<vector<vector<long long>>, vector<char>> getWorksheet() {
     string line;
     vector<vector<long long>> worksheet;
-    if (part1) worksheet = getNumbers(line);
+    if (PART1) worksheet = getNumbers(line);
     else worksheet = getCephalopodNumbers(line);
     vector<char> optrs = getOperators(line);
 
@@ -120,7 +120,7 @@ void visualiseWorksheet(pair<vector<vector<long long>>, vector<char>> &worksheet
 
 int main() {
     cout << "BEGIN!" << endl;
-    pair<vector<vector<long long>>, vector<char>> worksheet = getWorksheet(PART1);
+    pair<vector<vector<long long>>, vector<char>> worksheet = getWorksheet();
     long long sum = sumResults(worksheet);
     
     // visualiseWorksheet(worksheet);

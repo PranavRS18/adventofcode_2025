@@ -6,7 +6,7 @@ using namespace std;
 const bool PART1 = false;
 const int a = 50; // Initial Configuration    
 
-void calculateRule(int &a, string &rule, int &zero_count, int &count) {
+void calculateRule(int a, string &rule, int &zero_count, int &count) {
     int factor = stoi(rule.substr(1));
     rule[0] == 'L' ? factor *= -1 : factor *= 1;
     a += factor;

@@ -5,13 +5,13 @@ using namespace std;
 // Part 1 Constant
 const bool PART1 = false;
 
-bool is_repetition(long long x, bool part1 = false) {
+bool is_repetition(long long x) {
     string str = to_string(x);
     int n = str.size();
     for (int i = 1; i <= n / 2; i++) {
         if (n % i != 0) continue;
         string block = str.substr(0, i), r = "";
-        int times = part1 ? 2 : (n / i);
+        int times = PART1 ? 2 : (n / i);
         for (int j = 0; j < times; j++) r += block;
         if (r == str) return true;
     }
@@ -33,7 +33,7 @@ long long sumInvalidIDs(){
         getline(part, Rs, '-');
         long long L = stoll(Ls), R = stoll(Rs);
         for (long long i = L; i <= R; i++)
-            if (is_repetition(i, PART1)) sum += i;
+            if (is_repetition(i)) sum += i;
     }
 
     return sum;

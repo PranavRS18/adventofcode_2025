@@ -78,7 +78,7 @@ void removePapers(vector<vector<int>> &papers, vector<vector<int>> &adjP, int i,
     }
 }
 
-int countForkLifted(vector<vector<int>> &papers, vector<vector<int>> &adjP, bool part1 = false) {
+int countForkLifted(vector<vector<int>> &papers, vector<vector<int>> &adjP) {
     int count = 0;
     int row_size = papers.size();
     int col_size = papers[0].size();
@@ -91,7 +91,7 @@ int countForkLifted(vector<vector<int>> &papers, vector<vector<int>> &adjP, bool
                 papers[i][j] = 0;
                 count++;
 
-                if (!part1) {
+                if (!PART1) {
                     removePapers(papers, adjP, i, j, row_size, col_size);
                     isLift = true;
                 }
@@ -115,7 +115,7 @@ int main() {
     // Puzzle Input
     vector<vector<int>> papers = getPapers();
     vector<vector<int>> adjP = calculateAdjP(papers);
-    int count = countForkLifted(papers, adjP, PART1);
+    int count = countForkLifted(papers, adjP);
 
     // Visualise Grid
     // visualise(papers);
